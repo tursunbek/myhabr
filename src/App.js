@@ -8,8 +8,8 @@ class App extends React.Component {
     return (
         <>
 
-            <Post/>
-            {/*<PostList/>*/}
+            {/*<Post/>*/}
+            <PostList/>
         </>
     )
   }

@@ -4,20 +4,47 @@ import PostCard from "../../components/postCard/postCard";
 import Footer from "../../components/footer/Footer";
 
 class PostList extends React.Component{
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            postList:[]
+        }
+    }
+
+    componentDidMount() {
+        fetch("http://localhost:3001/posts")
+            .then(response => {
+                if(response.ok){
+                    return response.json();
+                }else{
+                    alert('ошибочка вышла код ошибки:' + response.status)
+                }
+            })
+            .then(data => this.setState( {
+                postList:data
+            }))
+    }
+
     render() {
         return(
             <>
                 <Header/>
-                <PostCard
-                    createName="Тестов тест"
-                    createDate="12.02.2021 15:45"
-                    title="У вас нет интересных проектов, а мне нечем гордиться. Но мы поладим"
-                />
-                <PostCard
-                    createName="good"
-                    createDate="12.02.2021 19:27"
-                    title="Хакеров (внезапно) пустили в ДЭГ: объявлен специальный тест электронного голосования"
-                />
+
+                {
+                    [<PostCard/>,<PostCard/>,<PostCard/>]
+                }
+
+                {
+                    this.state.postList.map(data => (
+                        <PostCard
+                            createName={data.createdUser}
+                            createDate={data.createdData}
+                            title={data.title}
+                        />
+                    ))
+                }
+
                 <Footer/>
             </>
         )
